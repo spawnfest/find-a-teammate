@@ -1,29 +1,36 @@
 <!DOCTYPE html>
 <html>
   <head>
+	<link rel="stylesheet" href="{{_base_url}}/static/css/bootstrap.css" type="text/css" media="screen" charset="utf-8" />
     <script src="{{_base_url}}/static/js/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="{{_base_url}}/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
     <!-- Custom Javascripts and stuff that needs to go into the header goes here -->
     {% block javascript %}{% endblock %}
     <title>{% block title %}&copy; Kai Janson 2012. All rights reserved.{% endblock %}</title>
   </head>
   <body>
     {% if boss_flash %}
-    {% for flash in boss_flash %}
-    <div id="flashaera" class="{{flash.method}}">{{ flash.title }} - {{ flash.message }}</div>
-    {% endfor %}
+		{% for flash in boss_flash %}
+			<div id="flashaera" class="{{flash.method}}">{{ flash.title }} - {{ flash.message }}</div>
+		{% endfor %}
     {% endif %}
-    <div id="navigation">
-      {% block menu %}
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-      </ul>
-      {% endblock %}
-    </div>
+	<header>
+		<nav>
+		  {% block menu %}
+		  <ul>
+		    <li><a href="/">Home</a></li>
+		    <li><a href="/about">About</a></li>
+		  </ul>
+		  {% endblock %}
+		</nav>
+	</header>
     <div id="container">
       {% block content %}{% endblock %}
     </div>
-    <p style="text-align: center">Kai Janson & Sergey Ivanov2012<a href="/bug">Report Bug</a> 
-    </p>
+
+	<footer>
+		<p style="text-align: center">Kai Janson & Sergey Ivanov2012 <a href="/bug">Report Bug</a> 
+		</p>
+	</footer>
   </body>
 </html>
