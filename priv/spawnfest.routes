@@ -22,7 +22,8 @@
 {"/logout", [{controller, "security"}, {action, "logout"}]}.
 % team
 {"/team", [{controller, "team"}, {action, "index"}]}.
-
+% /team/destroy
+{"/team/destroy", [{controller, "team"}, {action, "destroy"}, {id, '$1'}]}.
 
 % 404 File Not Found handler
 % {404, [{controller, "world"}, {action, "lost"}]}.

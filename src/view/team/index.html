@@ -1,4 +1,20 @@
 {% extends "layout/application.html" %}
+{% block javascript %}
+    <script type="text/javascript">
+    jQuery(document).ready(function(){
+	jQuery('.deleteme').click( function(){
+	    jQuery.ajax({
+		url: "/team/destroy/" + $(this).attr("did"),
+		type: "DELETE",
+		error: function(data, msg){ alert("An Error Occurred: " + data + " " + msg) },
+		success: function(data, msg){
+		    alert("Team deleted!" + data);		    
+		}
+	    });
+	});
+    });
+</script>
+{% endblock %}
 {% block content %}
 {% if teams %}
 <table class="table">
@@ -8,10 +24,16 @@
   <td>{{team.project}}</td>
   <td>{{team.created_at|localtime}}</td>
   <td>{{team.rank.name}}</td>
+  <td>
+    <a href="{% url action="edit" id=team.id %}">Edit</a>
+    <a href="{% url action="view" id=team.id %}">View</a>
+    <a href="#" class="deleteme" did="{{team.id}}">Delete</a>
+  </td>
 </tr>
 {% endfor %}
 </table>
 {% else %}
 No teams.  <a href="{% url action="create" %}">Create one.</a>
 {% endif %}
+<a href="{% url action="create" %}">Create Team</a>
 {% endblock %}
