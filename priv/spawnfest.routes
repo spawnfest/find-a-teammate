@@ -1,3 +1,4 @@
+% -*- mode: Erlang -*-
 % Routes file.
 
 % Formats: 
@@ -15,6 +16,8 @@
 
 % Front page
 {"/", [{controller, "main"}, {action, "index"}]}.
+% Security
+{"/security", [{controller, "security"}, {action, "login"}]}.
 
 % 404 File Not Found handler
 % {404, [{controller, "world"}, {action, "lost"}]}.

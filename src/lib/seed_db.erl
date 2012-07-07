@@ -1,4 +1,6 @@
 -module(seed_db).
+-export([admins/0]).
+
 %% Seeding the database with initial values.
 
 %% These supersecure password hashes are sha256("test") :)
