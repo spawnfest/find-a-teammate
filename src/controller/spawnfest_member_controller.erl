@@ -14,9 +14,21 @@ create('POST', []) ->
     Email = Req:post_param("email"),
     Country = Req:post_param("country"),
     State = Req:post_param("state"),
-    GitHubAccount = 
+    GitAccount = Req:post_param("github"),
+    Rank = (boss_db:find_first(rank, [{name, "Rookie"}])):id(),
+    TeamId = Req:post_param("team"),
+    
+    Passwordhash = mochihex:to_hex(crypto:sha256(Req:post_param("password"))),
+    NewMember = member:new(id, TeamId, First, Last, Email, Country, State, GitAccount, Rank, PasswordHash),
 
-    {redirect, [{action, "thankyou"}]}
+    case NewMember:save() of
+	{ok, SavedMember} ->
+	    boss_flash:add(SessionID, success, "Thank you for signing up"),
+	    {redirect, [{action, "thankyou"}]};
+	{error, Reason} ->
+	    boss_flash:add(SessionID, error, "Signup failed.  Please try again later"),
+	    Reason
+    end.
 
 edit('GET', [Id]) ->
     ok;
