@@ -18,7 +18,7 @@ create('POST', []) ->
     Rank = (boss_db:find_first(rank, [{name, "Rookie"}])):id(),
     TeamId = Req:post_param("team"),
     
-    Passwordhash = mochihex:to_hex(crypto:sha256(Req:post_param("password"))),
+    PasswordHash = mochihex:to_hex(crypto:sha256(Req:post_param("password"))),
     NewMember = member:new(id, TeamId, First, Last, Email, Country, State, GitAccount, Rank, PasswordHash),
 
     case NewMember:save() of
