@@ -24,10 +24,16 @@ create('POST', []) ->
     case NewMember:save() of
 	{ok, SavedMember} ->
 	    boss_flash:add(SessionID, success, "Thank you for signing up"),
-	    {redirect, [{action, "thankyou"}]};
-	{error, Reason} ->
-	    boss_flash:add(SessionID, error, "Signup failed.  Please try again later"),
-	    Reason
+	    boss_session:set_session_data(SessionID, thankyou_id, SavedMember:id()),
+	    case SavedMember:team_id() of
+		[] ->
+		    TeamsNow = [binary_to_list(X:name()) || X <- boss_db:find(team, [])],
+		    (noteam:new(id, Email, TeamsNow)):save(),
+		    {redirect, [{action, "thankyou"}]};
+		{error, Reason} ->
+		    boss_flash:add(SessionID, error, "Signup failed.  Please try again later"),
+		    Reason
+	    end
     end.
 
 edit('GET', [Id]) ->
@@ -39,4 +45,5 @@ destroy('GET', [Id]) ->
     ok.
 
 thankyou('GET', []) ->
-    ok.
+    Member = boss_db:find( boss_session:get_session_data(SessionID, thankyou_id)),
+    {ok, [{member, Member}]}.

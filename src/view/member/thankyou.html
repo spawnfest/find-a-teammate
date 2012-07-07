@@ -1,0 +1,16 @@
+{% extends "layout/application.html" %}
+{% block content %}
+<h2>Thank you {{member.first}} {{member.last}} for signing up to the Spawnfest Event!</h2>
+
+We will send you more information about the event to your email address <strong>{{member.email}}</strong><br />
+when it comes closer to the event date.  We will not share your email address for any purposes.<br />
+
+{% if not member.team_id %}
+<p>
+  Since you have not decided on a team yet, we will send you updates on new teams become available.<br />
+</p>
+{% endif %}
+
+Thank you!
+The Organizers.
+{% endblock %}
