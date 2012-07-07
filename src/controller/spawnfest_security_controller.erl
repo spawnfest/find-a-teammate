@@ -1,6 +1,8 @@
 -module(spawnfest_security_controller, [Req, SessionID]).
 -compile(export_all).
 
+-default_action(login).
+
 login('GET', []) ->
     ok;
 login('POST', []) ->
@@ -17,6 +19,7 @@ login('POST', []) ->
 	    {redirect, [{controller, "main"}, {action, "index"}]}
     end.
 
-logout() ->
+logout('GET', []) ->
+    error_logger:info_msg("logout!!!~n"),
     boss_session:delete_session(SessionID),
     {redirect, [{action, "login"}]}.
