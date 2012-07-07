@@ -20,6 +20,9 @@
 {"/security", [{controller, "security"}, {action, "login"}]}.
 % logout
 {"/logout", [{controller, "security"}, {action, "logout"}]}.
+% team
+{"/team", [{controller, "team"}, {action, "index"}]}.
+
 
 % 404 File Not Found handler
 % {404, [{controller, "world"}, {action, "lost"}]}.

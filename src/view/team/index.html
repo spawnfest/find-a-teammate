@@ -1,0 +1,17 @@
+{% extends "layout/application.html" %}
+{% block content %}
+{% if teams %}
+<table class="table">
+{% for team in teams %}
+<tr>
+  <td>{{team.name}}</td>
+  <td>{{team.project}}</td>
+  <td>{{team.created_at|localtime}}</td>
+  <td>{{team.rank.name}}</td>
+</tr>
+{% endfor %}
+</table>
+{% else %}
+No teams.  <a href="{% url action="create" %}">Create one.</a>
+{% endif %}
+{% endblock %}
