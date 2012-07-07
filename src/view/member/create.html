@@ -1,0 +1,53 @@
+{% extends "layout/application.html" %}
+{% block content %}
+<h2>Sign up for Spawnfest</h2>
+<form method="post" id="create_member_form" name="create_member_form" class="form well" >
+  <div class="memberinfo">
+    
+    <p>
+      <label for="first" id="first_label" name="first_label">Firstname</label><br />
+      <input type="text" id="first" name="first" class="input-xlarge" maxlength="255" placeholder="Firstname" value="" />
+    </p>
+
+    <p>
+      <label for="last" id="last_label" name="last_label">Lastname</label><br />
+      <input type="text" id="last" name="last" class="input-xlarge" maxlength="255" placeholder="Lastname" value="" />
+    </p>
+    
+    <p>
+      <label for="email" id="email_label" name="email_label">Email</label><br />
+      <input type="email" id="email" name="email" class="input-xlarge" maxlength="255" placeholder="Your Email address (must exist!)" value="" />
+    </p>
+
+    <p>
+      <label for="country" id="country_label" name="country_label">Country</label><br />
+      <input type="text" id="country" name="country" class="input-xlarge" maxlength="255" placeholder="Country please..." value="" />
+    </p>
+
+    <p>
+      <label for="state" id="state_label" name="state_label">State</label><br />
+      <input type="text" id="state" name="state" class="input-xlarge" maxlength="255" placeholder="State of residency..." value="" />
+    </p>
+
+    <p>
+      <label for="github" id="github_label" name="github_label">If you already have a GitHub account, please let us know</label><br />
+      <input type="text" id="github" name="github" class="input-xlarge" maxlength="255" placeholder="You'll get a free GitHub account for the contest..." value="" />
+    </p>
+  </div>
+  
+  <div class="on_the_side_maybe">
+    <label for="team" id="team_label" name="team_label">Select a team that you want to join, or leave it blank for now.</label><br />
+    <select name="team" id="team">
+      <option value=""></option>
+      {% if teams %}
+      {% for team in teams %}
+      <option value="{{team.id}}">{{team.name}} - {{team.project}}</option>
+      {% endfor %}
+      {% endif %}
+    </select>
+  </div>
+  <p>
+    <input type="submit" name="" value="Sign up!" />
+  </p>
+</form>
+{% endblock %}
