@@ -55,10 +55,33 @@ edit('GET', [Id]) ->
     Member = boss_db:find(Id),
     {ok, [{member, Member}]};
 edit('POST', [Id]) ->
+    OldMember = boss_db:find(Id),
+    %% [Id, TeamId, First, Last, Email, City, Country, State, GitAccount, Rank, PasswordHash]).
+    %% TeamId = Req:post_param("team"),
+    First = Req:post_param("first"),
+    Last = Req:post_param("last"),
+    Email = Req:post_param("email"),
+    City = Req:post_param("city"),
+    Country = Req:post_param("country"),
+    State = Req:post_param("state"),
+    GitAccount = Req:post_param("gitaccount"),
+    Rank = Req:post_param("rank"),
+    
+    NewMember = OldMember:set([
+			       {first, First},
+			       {last, Last},
+			       {email, Email},
+			       {city, City},
+			       {country, Country}
+			      ]),
     ok.
 
+
 destroy('GET', [Id]) ->
-    ok.
+    Member = boss_db:find(Id),
+    error_logger:info_msg("Deleting Member ~s ~s~n", [Member:first(), Member:last()]),
+    boss_db:delete(Id),
+    {redirect, [{action, "index"}]}.
 
 email('GET', [Id]) ->
     Member = boss_db:find(Id),

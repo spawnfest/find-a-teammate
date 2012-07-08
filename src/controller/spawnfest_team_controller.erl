@@ -61,6 +61,27 @@ edit('POST', [Id]) ->
 
 %% Triggered by Javascript function
 destroy('DELETE', [Id]) ->
+    %% Find members of this Team
+    Team = boss_db:find(Id),
+    Members = Team:members(),
+    
+    %% Now we need to remove the team_id from the members
+    %% to set them free again
+    F = fun(Member) ->
+		error_logger:info_msg("Working on member: ~p~n", [Member]),
+		Oldteam = boss_db:find(Member:team_id()),
+		NewMember = Member:set([{team_id, []}]),
+		case NewMember:save() of
+		    {ok, Updated} ->
+			error_logger:info_msg("Disassociated Member ~s from Team ~s", [Member, Oldteam:name()]);
+		    {error, Reason} ->
+			error_logger:error_msg("An Error occurred: ~p~n", [Reason])
+		end
+	end,
+    
+    [F(X) || X <- Members],
+
+    %% Now we can move on to destroy the team itself
     boss_db:delete(Id),
     Teams = boss_db:find(team, []),
     {render_other, [{action, "index"}], [{teams, Teams}]},

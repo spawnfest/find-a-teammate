@@ -1,12 +1,15 @@
 {% extends "layout/application.html" %}
 {% block content %}
 
+Session: {{_before|is_admin}}
+
 <h2>Assigned Members: {{assigned|length}}</h2>
 {% if assigned %}
 <ol>
 {% for member in assigned %}
 <li>
-  {{member.first}} {{member.last}} on Team <a href="{% url controller="team" action="view" id=member.team.id %}">{{member.team.name}}</a>
+  {{member.first}} {{member.last}} on Team
+  <a href="{% url controller="team" action="view" id=member.team.id %}">{{member.team.name}}</a>
   <a href="{% url action="email" id=member.id %}"><i class="icon-envelope"></i>Email</a>
   <a href="{% url action="show" id=member.id %}">Show</a>
 </li>
@@ -23,6 +26,7 @@
     <a href="{% url action="email" id=member.id %}"><i class="icon-envelope"></i>Email</a>
     <a href="{% url action="show" id=member.id %}">Show</a>
     <a href="{% url action="assign" id=member.id %}">Assign to Team</a>
+    <a href="{% url action="destroy" id=member.id  %}"><i class="icon-trash icon-large"></i>&nbsp;Delete</a>
   </li>
   {% endfor %}
 </ol>
