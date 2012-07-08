@@ -2,11 +2,42 @@
 
 -export([init/0, stop/1]).
 
+sendemail(Email, Team) ->
+    error_logger:info_msg("Sending an email to inform ~p about the new team ~p~n", [Email, Team]),
+    boss_mail:send("kai_the_admin@spawnfest.com",
+		   binary_to_list(Email),
+		   "New team " ++ Team ++ " created.",
+		   "Please check and see if you'd like to join the team.\n\nThank you!\n\n--The Admins\n").
+
+%% boss_mail:send(FromAddress, ToAddress, Subject, Body)
+
+
+update(HasNoTeam, Team) ->
+    Member = boss_db:find_first(member, [{email, HasNoTeam:email()}]),
+    error_logger:info_msg("Updating Member ~p ~p to add the new team ~p to the list.", [Member:first(), Member:last(), Team:name()]),
+    TeamsSoFar = HasNoTeam:teams_so_far(),
+    NewHasNoTeam = HasNoTeam:set([ {teams_so_far, [Team:name()| TeamsSoFar]} ]),
+    NewHasNoTeam:save().
+
 % This script is first executed at server startup and should
 % return a list of WatchIDs that should be cancelled in the stop
 % function below (stop is executed if the script is ever reloaded).
 init() ->
-    {ok, []}.
+   {ok, Pid} = boss_news:watch("teams",
+			       fun
+				   (created, NewTeam) ->
+				       PeopleToBeEmailed = boss_db:find(noteam, [{teams_so_far, 'not_in', [NewTeam:name()]}]),
+				       F = fun({X, Y}) ->
+						   sendemail(X:email(), Y:name()),
+						   update(X, Y)
+					   end,
+				       [ F({X, NewTeam}) || X <- PeopleToBeEmailed],
+				       ok;
+				   (deleted, _OldTeam) ->
+				       ok
+			       end),
+    
+    {ok, [Pid]}.
 
 stop(ListOfWatchIDs) ->
     lists:map(fun boss_news:cancel_watch/1, ListOfWatchIDs).

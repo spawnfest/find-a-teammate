@@ -12,6 +12,7 @@ create('POST', []) ->
     First = Req:post_param("first"),
     Last = Req:post_param("last"),
     Email = Req:post_param("email"),
+    City = Req:post_param("city"),
     Country = Req:post_param("country"),
     State = Req:post_param("state"),
     GitAccount = Req:post_param("github"),
@@ -19,7 +20,7 @@ create('POST', []) ->
     TeamId = Req:post_param("team"),
     
     PasswordHash = mochihex:to_hex(crypto:sha256(Req:post_param("password"))),
-    NewMember = member:new(id, TeamId, First, Last, Email, Country, State, GitAccount, Rank, PasswordHash),
+    NewMember = member:new(id, TeamId, First, Last, Email, City, Country, State, GitAccount, Rank, PasswordHash),
 
     case NewMember:save() of
 	{ok, SavedMember} ->
