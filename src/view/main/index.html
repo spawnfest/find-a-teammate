@@ -1,6 +1,32 @@
 {% extends "layout/application.html" %}
 {% block content %}
-<div class="container-fluid well">
-  Hello world!
-</div>
+
+{% if teams %}
+<h2>Teams ({{teams|length}}) and their Members ({{members|length}})</h2>
+<ul class="unstyled">
+  {% for team in teams %}
+  <li>
+    {{team.name}} {% if team.members|length < 4 %}<a href="{% url controller="team" action="addmember" id=team.id %}">Add Members</a>{% endif %}<br />
+    {% for member in team.members %}
+     <ul>
+      <li>
+	{{member.first}} {{member.last}} <a href="/member/email/{{member.id}}"><i class="icon-envelope"></i></a>
+	<a href="/member/show/{{member.id}}"><i class="icon-search"></i></a>
+	{% if _before %}
+	<a href="/member/edit/{{member.id}}"><i class="icon-edit"></i></a>
+	<a href="/team/removemember/{{member.id}}"><i class="icon-remove"></i></a>
+	{% endif %}
+      </li>
+     </ul>
+     {% empty %}
+     <li>No Members</li>
+     {% endfor %}
+  </li>
+  <br />
+{% endfor %}
+</ul>
+{% else %}
+	<h2>There are no any teams</h2>
+{% endif %}
+
 {% endblock %}
