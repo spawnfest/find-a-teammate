@@ -42,9 +42,11 @@
   <td>{{team.created_at|localtime}}</td>
   <td>{{team.rank.name}}</td>
   <td>
+	<a href="{% url action="view" id=team.id %}">View</a>
+	{% if _before %} {% if _before|is_admin %}
     <a href="{% url action="edit" id=team.id %}">Edit</a>
-    <a href="{% url action="view" id=team.id %}">View</a>
     <a href="#" class="deleteme" did="{{team.id}}">Delete</a>
+	{% endif %} {% endif %}
   </td>
 </tr>
 {% endfor %}

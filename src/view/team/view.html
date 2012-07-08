@@ -23,7 +23,8 @@
 
 
   <p>
-    <a href="{% url action="edit" id=team.id %}" class="btn btn-primary">Edit Team Info</a>
+    {% if _before %} {% if _before|is_admin %}<a href="{% url action="edit" id=team.id %}" class="btn btn-primary">Edit Team Info</a>
     <a href="{% url action="addmember" id=team.id %}" class=btn btn-inverse>Add Member to Team</a>
+	{% endif %} {% endif %}
   </p>
 {% endblock %}
