@@ -7,16 +7,16 @@
 <ul class="unstyled">
   {% for team in teams %}
   <li>
-    {{team.name}} {% if team.members|length < 4 %}<a href="{% url controller="team" action="addmember" id=team.id %}">Add Team Member&nbsp;<i class="icon-plus icon-large"></i></a>{% endif %}<br />
+    {{team.name}} {% if _before %} {% if _before|is_admin %} {% if team.members|length < 4 %}<a href="{% url controller="team" action="addmember" id=team.id %}">Add Team Member&nbsp;<i class="icon-plus icon-large"></i></a>{% endif %}{% endif %} {% endif %}<br />
     {% for member in team.members %}
      <ul class="unstyled">
       <li>
 	&nbsp;<i class="icon-user icon-large"></i>&nbsp;{{member.first}} {{member.last}} <a href="{% url controller="member" action="email" id=member.id %}"><i class="icon-envelope icon-large"></i></a>
 	<a href="{% url controller="member" action="show" id=member.id %}"><i class="icon-search icon-large"></i></a>
-	{% if _before %}
+	{% if _before %} {% if _before|is_admin %}
 	<a href="/member/edit/{{member.id}}"><i class="icon-edit"></i></a>
 	<a href="/team/removemember/{{member.id}}"><i class="icon-remove icon-large"></i></a>
-	{% endif %}
+	{% endif %} {% endif %}
       </li>
      </ul>
      {% empty %}
