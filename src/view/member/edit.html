@@ -1,6 +1,62 @@
 {% extends "layout/application.html" %}
 {% block content %}
 <div class="container-fluid well">
-  Edit here
+  <h2>Editing Member &quot;{{member.first}} {{member.last}}&quot;</h2>
+  <form method="post" class="form well">
+    <table class="table table-bordered">
+      <tr>
+	<th>First</th>
+	<td><input type="text" id="first" name="first" class="input-xlarge" maxlength="255" placeholder="Firstname..." value="{{member.first}}" required="required" /></td>
+      </tr>
+
+      <tr>
+	<th>Last</th>
+	<td><input type="text" id="last" name="last" class="input-xlarge" maxlength="255" placeholder="Lastname..." value="{{member.last}}" required="required" /></td>
+      </tr>
+
+      <tr>
+	<th>Email</th>
+	<td><input type="email" id="email" name="email" class="input-xlarge" maxlength="255" placeholder="Email Address here..." value="{{member.email}}" required="required" /></td>
+      </tr>
+
+      <tr>
+	<th>City</th>
+	<td><input type="text" id="city" name="city" class="input-xlarge" maxlength="255" placeholder="City of Residency..." value="{{member.city}}" required="required" /></td>
+      </tr>
+      
+      <tr>
+	<th>Country</th>
+	<td><input type="text" id="country" name="country" class="input-xlarge" maxlength="255" placeholder="Country please..." value="{{member.country}}" /></td>
+      </tr>
+
+      <tr>
+	<th>State</th>
+	<td><input type="text" id="state" name="state" class="input-xlarge" maxlength="255" placeholder="State..." value="{{member.state}}" /></td>
+      </tr>
+
+      <tr>
+	<th>Github Account</th>
+	<td><input type="text" id="github" name="github" class="input-xlarge" maxlength="255" placeholder="Github Account if you have it..." value="{{member.git_account}}" /></td>
+      </tr>
+
+      <tr>
+	<th>Rank</th>
+	<td><input type="text" id="rank" name="rank" class="input-xlarge" maxlength="255" placeholder="Rank..." value="{{member.rank}}" /></td>
+      </tr>
+
+      <tr>
+	<th>Password</th>
+	<td><input type="password" id="password" name="password" class="input-xlarge" maxlength="255" placeholder="Password...leave blank for not changing it" value="" /></td>
+      </tr>
+
+      <tr>
+	<th>&nbsp;</th>
+	<td><input type="password" id="password_confirm" name="password_confirm" class="input-xlarge" maxlength="255" placeholder="Password...leave blank for not changing it" value="" /></td>
+      </tr>
+
+    </table>
+    <button type="submit" class="btn btn-primary" ><i class="icon-ok icon-white"></i>Update</button>
+  </form>
+
 </div>
 {% endblock %}
