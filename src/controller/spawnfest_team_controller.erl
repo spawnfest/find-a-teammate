@@ -74,9 +74,7 @@ addmember('GET', [Id]) ->
 addmember('POST', [Id]) ->
     TheTeam = boss_db:find(Id),
     OldMember = boss_db:find(Req:post_param("member")),
-    NewMember = OldMember:set([
-			       {team_id, TheTeam:id()}
-			      ]),
+    NewMember = OldMember:set([{team_id, TheTeam:id()}]),
     case NewMember:save() of
 	{ok, SavedMember} ->
 	    Msg = lists:flatten(io_lib:format("Added Member '~s ~s' to Team '~s'", [OldMember:first(), OldMember:last(), TheTeam:name()])),

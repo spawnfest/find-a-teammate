@@ -14,6 +14,16 @@
   </p>
 
   <p>
+    <h2>Members</h2>
+    <ul>
+    {% for member in team.members %}
+    <li class="unstyled">{{member.first}} {{member.last}} <a href="{% url controller="member" action="email" id=member.id%}">{{member.email}}</a></li>
+    {% endfor %}
+    </ul>
+  </p>
+
+
+  <p>
     <a href="{% url action="edit" id=team.id %}" class="btn btn-primary">Edit</a>
   </p>
 </div>
