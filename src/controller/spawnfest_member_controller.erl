@@ -1,6 +1,10 @@
 -module(spawnfest_member_controller, [Req, SessionID]).
 -compile(export_all).
 
+before_(Function) ->
+    error_logger:info_msg("Function: ~p~n", [Function]),
+    security:logged_in(SessionID, Function).
+
 index('GET', []) ->
     Members = boss_db:find(member, []),
     [Assigned, Unassigned] = separate_members(Members),

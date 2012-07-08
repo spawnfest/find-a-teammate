@@ -2,6 +2,10 @@
 -compile(export_all).
 -include("ranks.hrl").
 
+before_(Function) ->
+    error_logger:info_msg("Function: ~p~n", [Function]),
+    security:logged_in(SessionID, Function).
+
 index('GET', []) ->
     Teams = boss_db:find(team, []),
     {ok, [{teams, Teams}]};
