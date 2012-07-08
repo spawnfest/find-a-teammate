@@ -18,6 +18,20 @@
 {% block content %}
 {% if teams %}
 <table class="table">
+<tr>
+	<th>
+		Name
+	</th>
+	<th>
+		Project
+	</th>
+	<th>
+		Created
+	</th>
+	<th>
+		Rank
+	</th>
+</tr>
 {% for team in teams %}
 <tr>
   <td>{{team.name}}</td>
