@@ -5,6 +5,7 @@ before_(Function) ->
     error_logger:info_msg("Function: ~p~n", [Function]),
     case Function of
 	"about" -> ok;
+	"index" -> ok;
 	AnythingElse ->
 	    security:logged_in(SessionID)
     end.
