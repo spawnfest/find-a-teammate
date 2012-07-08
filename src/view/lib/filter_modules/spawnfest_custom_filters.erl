@@ -12,5 +12,12 @@ localtime(Value) ->
     lists:flatten(io_lib:format("~2..0B/~2..0B/~B ~2..0B:~2..0B:~2..0B", [M,D,Y,H,I,S])).
 
 is_admin(Value) ->
-    error_logger:info_msg("Value: ~p~n", [Value]),
-    string:str(Value:id(), "admin") =:= 1.
+    Ret = case Value of
+	      undefined ->
+		  false;
+	      Val ->
+		  error_logger:info_msg("Value: ~p~n", [Value]),
+		  string:str(Value:id(), "admin") =:= 1
+	  end,
+    Ret.
+

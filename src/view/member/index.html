@@ -1,8 +1,6 @@
 {% extends "layout/application.html" %}
 {% block content %}
 
-Session: {{_before|is_admin}}
-
 <h2>Assigned Members: {{assigned|length}}</h2>
 {% if assigned %}
 <ol>
