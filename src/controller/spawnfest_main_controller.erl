@@ -6,3 +6,9 @@ before_(_) ->
 
 index('GET', [], Security) ->
     ok.
+
+about('GET', []) ->
+	{ok,[]}.
+
+notfound('GET', []) ->
+	{ok,[]}.
