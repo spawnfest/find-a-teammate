@@ -1,6 +1,26 @@
 {% extends "layout/application.html" %}
 {% block content %}
 <div class="container-fluid well">
-  Email here
+  Email to {{member.first}} {{member.last}} ({{member.email}})
+
+  <form method="post" class="form well" action="/member/email/{{member.id}}" >
+    <div class="row">
+      <label for="subject" id="subject_label" name="subject_label">Subject</label>
+      <input type="text" id="subject" name="subject" class="input-xlarge" maxlength="255"
+	     placeholder="Subject of your message to {{member.first}}" value=""
+	     required="required" autofocus
+	     />
+    </div>
+    
+    <div class="row">
+      <label for="body" id="body_label" name="body_label">Message</label>
+      <textarea name="body" id="body" class="input-xlarge" ></textarea>
+    </div>
+
+    <div class="row">
+      <button class="btn btn-primary" type="submit"><i class="icon-envelope icon-white"></i>&nbsp;Send Email to {{member.first}}</button>
+    </div>
+  </form>
+
 </div>
 {% endblock %}

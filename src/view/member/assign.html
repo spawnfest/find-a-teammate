@@ -1,0 +1,19 @@
+{% extends "layout/application.html" %}
+{% block content %}
+<div class="container-fluid well">
+  <h2>Assign Member &quot;{{member.first}} {{member.last}}&quot; to a Team</h2>
+
+  <form method="post" class="form well" action="/member/assign/{{member.id}}" >
+    <select name="team" id="team">
+      {% for team in teams %}
+      <option value="{{team.id}}">{{team.name}} - {{team.project}}</option>
+      {% endfor %}
+    </select>
+    
+    <div class="row">
+      <button class="btn btn-primary" type="submit"><i class="icon-ok icon-white"></i>&nbsp;Assign</button>      
+    </div>
+
+  </form>
+</div>
+{% endblock %}

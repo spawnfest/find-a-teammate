@@ -52,12 +52,46 @@ create('POST', []) ->
     end.
 
 edit('GET', [Id]) ->
-    ok;
+    Member = boss_db:find(Id),
+    {ok, [{member, Member}]};
 edit('POST', [Id]) ->
     ok.
 
 destroy('GET', [Id]) ->
     ok.
+
+email('GET', [Id]) ->
+    Member = boss_db:find(Id),
+    {ok, [{member, Member}]};
+email('POST', [Id]) ->
+    Member = boss_db:find(Id),
+    Subject = Req:post_param("subject"),
+    Body = Req:post_param("body"),
+    Msg = lists:flatten("Sent email to member ~s", [Member:email()]),
+    error_logger:info_msg(Msg),
+    boss_mail:send("admin@router1.is-a-geek.org", binary_to_list(Member:email()), Subject, Body),
+    boss_flash:add(SessionID, success, Msg),
+    {redirect, [{action, "index"}]}.
+
+assign('GET', [Id]) ->
+    Member = boss_db:find(Id),
+    Teams = boss_db:find(team, []),
+    {ok, [{member, Member}, {teams, Teams}]};
+assign('POST', [Id]) ->
+    OldMember = boss_db:find(Id),
+    TeamId = Req:post_param("team"),
+    Team = boss_db:find(TeamId),
+    NewMember = OldMember:set([{team_id, Team:id()}]),
+
+    case NewMember:save() of
+	{ok, Saved} ->
+	    Msg = lists:flatten(io_lib:format("Added \"~s ~s\" to Team \"~s\"", [OldMember:first(), OldMember:last(), Team:name()])),
+	    error_logger:info_msg("POST received with Id ~s", [Id]),
+	    boss_flash:add(SessionID, success, Msg),
+	    {redirect, [{action, "index"}]};
+	{error, Reason} ->
+	    Reason
+    end.
 
 thankyou('GET', []) ->
     Member = boss_db:find( boss_session:get_session_data(SessionID, thankyou_id)),
