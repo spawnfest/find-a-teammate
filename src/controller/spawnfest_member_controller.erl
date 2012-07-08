@@ -3,7 +3,12 @@
 
 before_(Function) ->
     error_logger:info_msg("Function: ~p~n", [Function]),
-    security:logged_in(SessionID, Function).
+	case Function of
+	"create" ->
+		security:logged_in(SessionID, "signup");
+	AnythingElse ->
+		security:logged_in(SessionID, Function)
+	end.
 
 index('GET', []) ->
     Members = boss_db:find(member, []),
@@ -48,7 +53,9 @@ create('POST', []) ->
 		{error, Reason} ->
 		    boss_flash:add(SessionID, error, "Signup failed.  Please try again later"),
 		    Reason
-	    end
+	    end;
+	{error, Reason} ->
+		boss_flash:add(SessionID, error, Reason)
     end.
 
 edit('GET', [Id]) ->

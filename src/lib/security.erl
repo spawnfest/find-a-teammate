@@ -8,6 +8,7 @@ logged_in(SessionID, Function) ->
 			"about" -> ok;
 			"notfound" -> ok;
 			"main/index" -> ok;
+			"signup" -> ok;
 		AnythingElse ->
 	    	{redirect, [{controller, "security"}, {action, "login"}]}
     	end;	    
