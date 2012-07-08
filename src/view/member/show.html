@@ -4,7 +4,12 @@
   <h2>Information on Member &quot;{{member.first}} {{member.last}}&quot;</h2>
 
   <section class="well">
-    Team: {% if member.team.name %}{{member.team.name}}{% else %}Not a member of a team yet{% endif %}
+    <div class="row">
+      Team: {% if member.team.name %}{{member.team.name}}{% else %}Not a member of a team yet{% endif %}
+    </div>
+    <div class="row">
+      Email: {{member.email}}
+    </div>
   </section>
 
 </div>
