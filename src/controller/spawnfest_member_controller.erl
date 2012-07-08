@@ -48,12 +48,26 @@ create('POST', []) ->
     end.
 
 edit('GET', [Id]) ->
-    ok;
+    Member = boss_db:find(Id),
+    {ok, [{member, Member}]};
 edit('POST', [Id]) ->
     ok.
 
 destroy('GET', [Id]) ->
     ok.
+
+email('GET', [Id]) ->
+    Member = boss_db:find(Id),
+    {ok, [{member, Member}]};
+email('POST', [Id]) ->
+    Member = boss_db:find(Id),
+    Subject = Req:post_param("subject"),
+    Body = Req:post_param("body"),
+    Msg = lists:flatten("Sent email to member ~s", [Member:email()]),
+    error_logger:info_msg(Msg),
+    boss_mail:send("admin@router1.is-a-geek.org", binary_to_list(Member:email()), Subject, Body),
+    boss_flash:add(SessionID, success, Msg),
+    {redirect, [{action, "index"}]}.
 
 thankyou('GET', []) ->
     Member = boss_db:find( boss_session:get_session_data(SessionID, thankyou_id)),

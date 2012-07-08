@@ -8,7 +8,7 @@
       Team: {% if member.team.name %}{{member.team.name}}{% else %}Not a member of a team yet{% endif %}
     </div>
     <div class="row">
-      Email: {{member.email}}
+      <a href="{% url action="email" id=member.id %}">Email Member ({{member.email}})</a>
     </div>
   </section>
 
