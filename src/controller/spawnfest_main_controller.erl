@@ -6,6 +6,7 @@ before_(Function) ->
     case Function of
 	"about" -> ok;
 	"index" -> ok;
+	"notfound" -> ok;
 	AnythingElse ->
 	    security:logged_in(SessionID)
     end.
