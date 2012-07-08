@@ -22,8 +22,8 @@ login('POST', []) ->
 			{redirect, [{controller, "main"}, {action, "index"}]}
 		end;
 	[Member] ->
-		is_admin = false,
-		boss_session:set_session_data(SessionID, user_id, Member:id(), is_admin),
+		boss_session:set_session_data(SessionID, is_admin, false),
+		boss_session:set_session_data(SessionID, user_id, Member:id()),
 		{redirect, [{controller, "main"}, {action, "index"}]}
 	end.
 

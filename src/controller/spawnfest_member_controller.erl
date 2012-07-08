@@ -81,8 +81,13 @@ edit('POST', [Id]) ->
 			       {city, City},
 			       {country, Country}
 			      ]),
-    ok.
-
+    case NewMember:save() of
+	{ok, Updated} ->
+	    boss_flash:add(SessionID, success, "Updated Member"),
+	    {redirect, [{action, "index"}]};
+	{error, Reason} ->
+	    Reason
+    end.
 
 destroy('GET', [Id]) ->
     Member = boss_db:find(Id),
