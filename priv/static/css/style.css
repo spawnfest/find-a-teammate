@@ -1,0 +1,34 @@
+body {
+	width: 90%;
+	margin-left:auto; 
+	margin-right:auto;
+}
+
+header {
+	padding-top: 20px;
+}
+
+.leftnav {
+}
+
+.rightnav {
+	float: right;
+}
+.rightnav li {
+	display: block;
+}
+/*
+nav ul li {
+	display: inline;
+	padding-right: 20px;
+	font-size: 12pt;
+}
+
+
+nav ul li a,
+nav ul li a:visited {
+	color: #565656;
+	text-shadow: 
+	text-transform: uppercase;
+}
+*/
