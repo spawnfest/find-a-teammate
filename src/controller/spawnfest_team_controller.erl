@@ -85,7 +85,7 @@ destroy('DELETE', [Id]) ->
     boss_db:delete(Id),
     Teams = boss_db:find(team, []),
     {render_other, [{action, "index"}], [{teams, Teams}]},
-    {json, [{status, ok}]}.
+    {output, "ok"}.
 
 addmember('GET', [Id]) ->
     Team = boss_db:find(Id),
