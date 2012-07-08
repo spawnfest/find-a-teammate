@@ -17,8 +17,8 @@ login('POST', []) ->
 			boss_flash:add(SessionID, error, "Invalid username/password."),
 			{redirect, [{action, "login"}]};
 		[Admin] ->
-			is_admin = true,
-			boss_session:set_session_data(SessionID, user_id, Admin:id(), is_admin),
+			boss_session:set_session_data(SessionID, is_admin, true),
+			boss_session:set_session_data(SessionID, user_id, Admin:id()),
 			{redirect, [{controller, "main"}, {action, "index"}]}
 		end;
 	[Member] ->
