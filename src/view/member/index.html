@@ -3,43 +3,44 @@
 
 <h2>Assigned Members: {{assigned|length}}</h2>
 {% if assigned %}
-<ul>
+<ol>
 {% for member in assigned %}
 <li>{{member.first}} {{member.last}} on Team {{member.team.name}}</li>
 {% endfor %}
-</ul>
+</ol>
 {% endif %}
 
 <h2>Unassigned Members: {{unassigned|length}}</h2>
 {% if unassigned %}
-<ul>
+<ol>
   {% for member in unassigned %}
   <li>{{member.first}} {{member.last}} Actions: <a href="mailto:{{member.email}}">Email</a></li>
   {% endfor %}
-</ul>
+</ol>
 {% endif %}
 
 {% if teams %}
 <h2>Teams ({{teams|length}}) and their Members ({{members|length}})</h2>
-{% for team in teams %}
-<ul>
+<ul class="unstyled">
+  {% for team in teams %}
   <li>
-    <ul>
-      {{team.name}} {% if team.members|length < 4 %}<a href="{% url controller="team" action="addmember" id=team.id %}">Add Members</a>{% endif %}<br />
-      {% for member in team.members %}
+    {{team.name}} {% if team.members|length < 4 %}<a href="{% url controller="team" action="addmember" id=team.id %}">Add Members</a>{% endif %}<br />
+    {% for member in team.members %}
+     <ul>
       <li>
-	{{member.first}} {{member.last}} <a href="{% url action="/team/deletemember" id=member.id %}">Remove</a>
+	{{member.first}} {{member.last}} <a href="{% url controller="team" action="removemember" id=member.id %}">Remove</a>
 	<a href="{% url action="/member/show" id=member.id %}">Show</a>
 	<a href="{% url action="/member/edit" id=member.id %}">Edit</a>
 	<a href="{% url action="/member/email" id=member.id %}">Email</a>
       </li>
-      {% empty %}
-      <li>No Members</li>
-      {% endfor %}
-    </ul>
+     </ul>
+     {% empty %}
+     <li>No Members</li>
+     {% endfor %}
   </li>
-</ul>
+  <br />
 {% endfor %}
+</ul>
 
 {% endif %}
 {% endblock %}

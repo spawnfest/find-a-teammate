@@ -66,7 +66,40 @@ addmember('GET', [Id]) ->
     Team = boss_db:find(Id),
     M = boss_db:find(member, []),
     Members = only_unassigned_members(M),
-    {ok, [{team, Team}, {members, Members}]}.
+    {ok, [{team, Team}, {members, Members}]};
+addmember('POST', [Id]) ->
+    TheTeam = boss_db:find(Id),
+    OldMember = boss_db:find(Req:post_param("member")),
+    NewMember = OldMember:set([
+			       {team_id, TheTeam:id()}
+			      ]),
+    case NewMember:save() of
+	{ok, SavedMember} ->
+	    Msg = lists:flatten(io_lib:format("Added Member '~s ~s' to Team '~s'", [OldMember:first(), OldMember:last(), TheTeam:name()])),
+	    boss_flash:add(SessionID, success, Msg),
+	    {redirect, [{controller, "member"}, {action, "index"}]};
+	{error, Reason} ->
+	    Reason
+    end.
+
+%% Removes a member from a team
+%% The Id is holding the Member and the member's team_id is set
+%% to the team the member belongs to.
+%% Resetting the team_id to [] will disassociate the member of
+%% the team.
+removemember('GET', [Id]) ->
+    OldMember = boss_db:find(Id),
+    OldTeam = boss_db:find(OldMember:team_id()),
+    NewMember = OldMember:set([{team_id, []}]),
+    case NewMember:save() of
+	{ok, Updated} ->
+	    Msg = lists:flatten(io_lib:format("Removed Member ~s ~s from Team ~s successfully.", [OldMember:first(), OldMember:last(), OldTeam:name()])),
+	    error_logger:info_msg(Msg),
+	    boss_flash:add(SessionID, success, Msg),
+	    {redirect, [{controller, "member"}, {action, "index"}]};
+	{error, Reason} ->
+	    Reason
+    end.
 
 only_unassigned_members(Members) ->
     unassigned(Members, []).
