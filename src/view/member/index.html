@@ -19,4 +19,27 @@
 </ul>
 {% endif %}
 
+{% if teams %}
+<h2>Teams ({{teams|length}}) and their Members ({{members|length}})</h2>
+{% for team in teams %}
+<ul>
+  <li>
+    <ul>
+      {{team.name}} {% if team.members|length < 4 %}<a href="{% url action="/team/addmembers" %}">Add Members</a>{% endif %}<br />
+      {% for member in team.members %}
+      <li>
+	{{member.first}} {{member.last}} <a href="{% url action="/team/deletemember" id=member.id %}">Remove</a>
+	<a href="{% url action="/member/show" id=member.id %}">Show</a>
+	<a href="{% url action="/member/edit" id=member.id %}">Edit</a>
+	<a href="{% url action="/member/email" id=member.id %}">Email</a>
+      </li>
+      {% empty %}
+      <li>No Members</li>
+      {% endfor %}
+    </ul>
+  </li>
+</ul>
+{% endfor %}
+
+{% endif %}
 {% endblock %}

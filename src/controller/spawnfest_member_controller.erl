@@ -5,7 +5,8 @@ index('GET', []) ->
     Members = boss_db:find(member, []),
     [Assigned, Unassigned] = separate_members(Members),
     %% error_logger:info_msg("We have ~p Assigned and ~p Unassigned Members", [length(Assigned), length(Unassigned)]),
-    {ok, [{assigned, Assigned}, {unassigned, Unassigned}]}.
+    Teams = boss_db:find(team, []),
+    {ok, [{assigned, Assigned}, {unassigned, Unassigned}, {teams, Teams}, {members, Members}]}.
 
 create('GET', []) ->
     %% TODO: Find teams that has less than 4 team members
