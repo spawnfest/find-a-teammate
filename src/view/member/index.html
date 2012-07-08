@@ -5,7 +5,11 @@
 {% if assigned %}
 <ol>
 {% for member in assigned %}
-<li>{{member.first}} {{member.last}} on Team {{member.team.name}}</li>
+<li>
+  {{member.first}} {{member.last}} on Team {{member.team.name}}
+  <a href="{% url action="email" id=member.id %}"><i class="icon-envelope"></i>Email</a>
+  <a href="{% url action="show" id=member.id %}">Show</a>
+</li>
 {% endfor %}
 </ol>
 {% endif %}
@@ -15,8 +19,10 @@
 <ol>
   {% for member in unassigned %}
   <li>
-    {{member.first}} {{member.last}} Actions: <a href="mailto:{{member.email}}">Email</a>
+    {{member.first}} {{member.last}} Actions:
+    <a href="{% url action="email" id=member.id %}"><i class="icon-envelope"></i>Email</a>
     <a href="{% url action="show" id=member.id %}">Show</a>
+    <a href="{% url action="assign" id=member.id %}">Assign to Team</a>
   </li>
   {% endfor %}
 </ol>

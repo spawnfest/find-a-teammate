@@ -77,8 +77,21 @@ assign('GET', [Id]) ->
     Member = boss_db:find(Id),
     Teams = boss_db:find(team, []),
     {ok, [{member, Member}, {teams, Teams}]};
-assign('PUT', [Id]) ->
-    error_logger:info_msg("PUT received with Id ~s", [Id]).
+assign('POST', [Id]) ->
+    OldMember = boss_db:find(Id),
+    TeamId = Req:post_param("team"),
+    Team = boss_db:find(TeamId),
+    NewMember = OldMember:set([{team_id, Team:id()}]),
+
+    case NewMember:save() of
+	{ok, Saved} ->
+	    Msg = lists:flatten(io_lib:format("Added \"~s ~s\" to Team \"~s\"", [OldMember:first(), OldMember:last(), Team:name()])),
+	    error_logger:info_msg("POST received with Id ~s", [Id]),
+	    boss_flash:add(SessionID, success, Msg),
+	    {redirect, [{action, "index"}]};
+	{error, Reason} ->
+	    Reason
+    end.
 
 thankyou('GET', []) ->
     Member = boss_db:find( boss_session:get_session_data(SessionID, thankyou_id)),
