@@ -33,8 +33,8 @@
       <li>
 	{{member.first}} {{member.last}} <a href="{% url controller="team" action="removemember" id=member.id %}">Remove</a>
 	<a href="{% url action="show" id=member.id %}">Show</a>
-	<a href="{% url action="/member/edit" id=member.id %}">Edit</a>
-	<a href="{% url action="/member/email" id=member.id %}">Email</a>
+	<a href="{% url action="edit" id=member.id %}">Edit</a>
+	<a href="{% url action="email" id=member.id %}">Email</a>
       </li>
      </ul>
      {% empty %}
