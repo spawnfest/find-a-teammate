@@ -69,6 +69,13 @@ email('POST', [Id]) ->
     boss_flash:add(SessionID, success, Msg),
     {redirect, [{action, "index"}]}.
 
+assign('GET', [Id]) ->
+    Member = boss_db:find(Id),
+    Teams = boss_db:find(team, []),
+    {ok, [{member, Member}, {teams, Teams}]};
+assign('PUT', [Id]) ->
+    error_logger:info_msg("PUT received with Id ~s", [Id]).
+
 thankyou('GET', []) ->
     Member = boss_db:find( boss_session:get_session_data(SessionID, thankyou_id)),
     {ok, [{member, Member}]}.
