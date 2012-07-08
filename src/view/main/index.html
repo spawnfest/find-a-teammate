@@ -6,7 +6,7 @@
 <ul class="unstyled">
   {% for team in teams %}
   <li>
-    {{team.name}} {% if team.members|length < 4 %}<a href="/team/addmember/team.id">Add Members</a>{% endif %}<br />
+    {{team.name}} {% if team.members|length < 4 %}<a href="/team/addmember/{{team.id}}">Add Members</a>{% endif %}<br />
     {% for member in team.members %}
      <ul>
       <li>
