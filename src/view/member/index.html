@@ -22,28 +22,5 @@
 </ol>
 {% endif %}
 
-{% if teams %}
-<h2>Teams ({{teams|length}}) and their Members ({{members|length}})</h2>
-<ul class="unstyled">
-  {% for team in teams %}
-  <li>
-    {{team.name}} {% if team.members|length < 4 %}<a href="{% url controller="team" action="addmember" id=team.id %}">Add Members</a>{% endif %}<br />
-    {% for member in team.members %}
-     <ul>
-      <li>
-	{{member.first}} {{member.last}} <a href="{% url controller="team" action="removemember" id=member.id %}">Remove</a>
-	<a href="{% url action="show" id=member.id %}">Show</a>
-	<a href="{% url action="/member/edit" id=member.id %}">Edit</a>
-	<a href="{% url action="/member/email" id=member.id %}">Email</a>
-      </li>
-     </ul>
-     {% empty %}
-     <li>No Members</li>
-     {% endfor %}
-  </li>
-  <br />
-{% endfor %}
-</ul>
 
-{% endif %}
 {% endblock %}
