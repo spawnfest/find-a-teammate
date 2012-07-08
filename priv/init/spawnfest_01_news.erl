@@ -9,9 +9,6 @@ sendemail(Email, Team) ->
 		   "New team " ++ Team ++ " created.",
 		   "Please check and see if you'd like to join the team.\n\nThank you!\n\n--The Admins\n").
 
-%% boss_mail:send(FromAddress, ToAddress, Subject, Body)
-
-
 update(HasNoTeam, Team) ->
     Member = boss_db:find_first(member, [{email, HasNoTeam:email()}]),
     error_logger:info_msg("Updating Member ~p ~p to add the new team ~p to the list.", [Member:first(), Member:last(), Team:name()]),
