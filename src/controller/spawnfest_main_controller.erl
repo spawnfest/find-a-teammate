@@ -7,7 +7,9 @@ before_(Function) ->
 
 %% Secured
 index('GET', [], Security) ->
-    {ok, [{security, Security}]}.
+    Members = boss_db:find(member, []),
+    Teams = boss_db:find(team, []),
+    {ok, [{teams, Teams}, {members, Members}]}.
 
 %% No secured, see before_ function above
 about('GET', []) ->

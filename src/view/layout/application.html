@@ -17,13 +17,19 @@
 	  <div class="navbar-inner">
 	    <div class="container">
 	      <ul class="nav leftnav">
-		<li><a href="/">Home</a></li>
-		<li><a href="/member">Member</a></li>
-		<li><a href="/team">Team</a></li>
-		<li><a href="/about">About</a></li>
+			<li><a href="/">Home</a></li>
+			{% if _before %}
+			<li><a href="/member">Member</a></li>
+			<li><a href="/team">Team</a></li>
+			{% endif %}
+			<li><a href="/about">About</a></li>
 	      </ul>
 	      <ul class="rightnav">
-		<li><a href="/security">Login</a></li>
+			{% if _before %}
+				<li>{{_before.first}} <a href="/security/logout">Logout</a></li>
+			{% else %}
+				<li><a href="/security">Login</a></li>
+			{% endif %}
 	      </ul>
 	    </div>
 	  </div>
