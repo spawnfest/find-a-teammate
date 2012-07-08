@@ -8,6 +8,10 @@ index('GET', []) ->
     Teams = boss_db:find(team, []),
     {ok, [{assigned, Assigned}, {unassigned, Unassigned}, {teams, Teams}, {members, Members}]}.
 
+show('GET', [Id]) ->
+    Member = boss_db:find(Id),
+    {ok, [{member, Member}]}.
+
 create('GET', []) ->
     %% TODO: Find teams that has less than 4 team members
     Teams = boss_db:find(team, []),
@@ -63,9 +67,7 @@ separate_members([], Assigned, Unassigned) ->
 separate_members([H | Members], Assigned, Unassigned) ->
     case H:team_id() of
 	[] ->
-%%	    error_logger:info_msg("H is empty ~p~n", [H]),
 	    separate_members(Members, Assigned, [H|Unassigned]);
 	Id ->
-%%	    error_logger:info_msg("H is assigned ~p~n", [H]),
 	    separate_members(Members, [H|Assigned], Unassigned)
     end.

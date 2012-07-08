@@ -14,7 +14,10 @@
 {% if unassigned %}
 <ol>
   {% for member in unassigned %}
-  <li>{{member.first}} {{member.last}} Actions: <a href="mailto:{{member.email}}">Email</a></li>
+  <li>
+    {{member.first}} {{member.last}} Actions: <a href="mailto:{{member.email}}">Email</a>
+    <a href="{% url action="show" id=member.id %}">Show</a>
+  </li>
   {% endfor %}
 </ol>
 {% endif %}
@@ -29,7 +32,7 @@
      <ul>
       <li>
 	{{member.first}} {{member.last}} <a href="{% url controller="team" action="removemember" id=member.id %}">Remove</a>
-	<a href="{% url action="/member/show" id=member.id %}">Show</a>
+	<a href="{% url action="show" id=member.id %}">Show</a>
 	<a href="{% url action="/member/edit" id=member.id %}">Edit</a>
 	<a href="{% url action="/member/email" id=member.id %}">Email</a>
       </li>

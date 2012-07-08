@@ -5,7 +5,6 @@ before_(Function) ->
     error_logger:info_msg("Function: ~p~n", [Function]),
     case Function of
 	"about" -> ok;
-	"index" -> ok;
 	"notfound" -> ok;
 	AnythingElse ->
 	    security:logged_in(SessionID)
@@ -13,7 +12,7 @@ before_(Function) ->
 
 %% Secured
 index('GET', [], Security) ->
-    ok.
+    {ok, []}.
 
 %% No secured, see before_ function above
 about('GET', []) ->
