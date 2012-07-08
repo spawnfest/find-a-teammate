@@ -25,7 +25,7 @@
 <ul>
   <li>
     <ul>
-      {{team.name}} {% if team.members|length < 4 %}<a href="{% url action="/team/addmembers" %}">Add Members</a>{% endif %}<br />
+      {{team.name}} {% if team.members|length < 4 %}<a href="{% url controller="team" action="addmember" id=team.id %}">Add Members</a>{% endif %}<br />
       {% for member in team.members %}
       <li>
 	{{member.first}} {{member.last}} <a href="{% url action="/team/deletemember" id=member.id %}">Remove</a>

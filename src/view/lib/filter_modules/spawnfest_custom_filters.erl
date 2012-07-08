@@ -10,3 +10,4 @@
 localtime(Value) ->
     {{Y,M,D},{H,I,S}} = calendar:now_to_local_time(Value),
     lists:flatten(io_lib:format("~2..0B/~2..0B/~B ~2..0B:~2..0B:~2..0B", [M,D,Y,H,I,S])).
+

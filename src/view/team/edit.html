@@ -1,26 +1,30 @@
 {% extends "layout/application.html" %}
 {% block content %}
-<form method="post" id="create_team_form" name="create_team_form" >
-  <p>
-    <label for="name" id="name_label" name="name_label">Name</label><br />
-    <input type="text" id="name" name="name" class="input-xlarge" maxlength="255" placeholder="Name of the Team" value="{{team.name}}" />
-    <br />
-  </p>
+<div class="container-fluid well">
+  <h3>Edit Team &quot;{{team.name}}&quot;</h3>
+  <form method="post" id="create_team_form" name="create_team_form" >
+    <p>
+      <label for="name" id="name_label" name="name_label">Name</label><br />
+      <input type="text" id="name" name="name" class="input-xlarge" maxlength="255" placeholder="Name of the Team" value="{{team.name}}" />
+      <br />
+    </p>
 
-  <p>
-    <label for="project" id="project_label" name="project_label">Project</label><br />
-    <input type="text" id="project" name="project" class="input-xlarge" maxlength="255" placeholder="Project name here" value="{{team.project}}" />
-    <br />
-  </p>
+    <p>
+      <label for="project" id="project_label" name="project_label">Project</label><br />
+      <input type="text" id="project" name="project" class="input-xlarge" maxlength="255" placeholder="Project name here" value="{{team.project}}" />
+      <br />
+    </p>
 
-  <p>
-    <select name="rank_id" id="rank_id">
-      {% for rank in ranks %}
-      <option value="{{rank.id}}" {% if rank.id == team.rank_id %} selected="selected" {% endif %}>{{rank.name}}</option>
-      {% endfor %}
-    </select>
-  </p>
+    <p>
+      <h4>Rank</h4>
+      <select name="rank_id" id="rank_id">
+	{% for rank in ranks %}
+	<option value="{{rank.id}}" {% if rank.id == team.rank_id %} selected="selected" {% endif %}>{{rank.name}}</option>
+	{% endfor %}
+      </select>
+    </p>
 
-  <input type="submit" name="" value="Save Team" />
-</form>
+    <input type="submit" class="btn btn-primary" value="Save Team" />
+  </form>
+</div>
 {% endblock %}

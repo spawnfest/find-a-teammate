@@ -42,7 +42,14 @@ edit('POST', [Id]) ->
 			  ]),
     case NewTeam:save() of
 	{ok, SavedTeam} ->
-	    boss_flash:add(SessionID, success, "Team successfully updated"),
+
+	    Msg = case OldTeam:name() =:= NewTeam:name() of
+		      true ->
+			  lists:flatten(io_lib:format("Team '~s' successfully updated",[ OldTeam:name()]));
+		      false ->
+			  lists:flatten(io_lib:format("Team '~s' successfully renamed and updated to team '~s'", [OldTeam:name(), NewTeam:name()]))
+		  end,
+	    boss_flash:add(SessionID, success, Msg),
 	    {redirect, [{action, "index"}]};
 	{error, Reason} ->
 	    Reason
@@ -55,4 +62,21 @@ destroy('DELETE', [Id]) ->
     {render_other, [{action, "index"}], [{teams, Teams}]},
     {json, [{status, ok}]}.
 
+addmember('GET', [Id]) ->
+    Team = boss_db:find(Id),
+    M = boss_db:find(member, []),
+    Members = only_unassigned_members(M),
+    {ok, [{team, Team}, {members, Members}]}.
 
+only_unassigned_members(Members) ->
+    unassigned(Members, []).
+
+unassigned([], Unassigned) ->
+    lists:reverse(Unassigned);
+unassigned([H | Members], Unassigned) ->
+    case H:team_id() of
+	[] ->
+	    unassigned(Members, [H|Unassigned]);
+	Id ->
+	    unassigned(Members, Unassigned)
+    end.

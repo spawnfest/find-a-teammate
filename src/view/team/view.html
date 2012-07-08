@@ -1,18 +1,20 @@
 {% extends "layout/application.html" %}
 {% block content %}
-<h2>Team {{team.name}}</h2>
+<div class="container-fluid well">
+  <h2>Team {{team.name}}</h2>
 
-<p>
-<h3>Project</h3>
-{{team.project}}<br />
-</p>
+  <p>
+    <h3>Project</h3>
+    {{team.project}}<br />
+  </p>
 
-<p>
-<h3>Rank</h3>
-{{team.rank.name}}<br />
-</p>
+  <p>
+    <h3>Rank</h3>
+    {{team.rank.name}}<br />
+  </p>
 
-<p>
-<a href="{% url action="edit" id=team.id %}">Edit</a>
-</p>
+  <p>
+    <a href="{% url action="edit" id=team.id %}" class="btn btn-primary">Edit</a>
+  </p>
+</div>
 {% endblock %}

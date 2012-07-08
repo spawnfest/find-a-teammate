@@ -1,50 +1,51 @@
 <!DOCTYPE html>
 <html>
   <head>
-	<link rel="stylesheet" href="{{_base_url}}/static/css/bootstrap.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="{{_base_url}}/static/css/style.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="{{_base_url}}/static/css/bootstrap.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="{{_base_url}}/static/css/style.css" type="text/css" media="screen" charset="utf-8" />
     <script src="{{_base_url}}/static/js/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="{{_base_url}}/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{_base_url}}/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
     <!-- Custom Javascripts and stuff that needs to go into the header goes here -->
     {% block javascript %}{% endblock %}
     <title>{% block title %}&copy; Kai Janson 2012. All rights reserved.{% endblock %}</title>
   </head>
   <body>
-    {% if boss_flash %}
-		{% for flash in boss_flash %}
-			<div id="flasharea" class="{{flash.method}}">{{ flash.title }} - {{ flash.message }}</div>
-		{% endfor %}
-    {% endif %}
-	<header>
-		<nav>
-		{% block menu %}
-			<div class="navbar">
-				<div class="navbar-inner">
-					<div class="container">
-						<ul class="nav leftnav">
-							<li><a href="/">Home</a></li>
-							<li><a href="/member">Member</a></li>
-							<li><a href="/team">Team</a></li>
-							<li><a href="/about">About</a></li>
-						</ul>
-						<ul class="rightnav">
-							<li><a href="/security">Login</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		{% endblock %}
-		</nav>
-	</header>
-	<section>
-    <div id="container">
-      {% block content %}{% endblock %}
-    </div>
-	</section>
-
-	<footer>
-		<p style="text-align: center">Kai Janson & Sergey Ivanov for Spawnfest.com 2012 <a href="/bug">Report Bug</a> 
-		</p>
-	</footer>
+    <header>
+      <nav>
+	{% block menu %}
+	<div class="navbar">
+	  <div class="navbar-inner">
+	    <div class="container">
+	      <ul class="nav leftnav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/member">Member</a></li>
+		<li><a href="/team">Team</a></li>
+		<li><a href="/about">About</a></li>
+	      </ul>
+	      <ul class="rightnav">
+		<li><a href="/security">Login</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	</div>
+	{% endblock %}
+      </nav>
+    </header>
+    <section>
+      {% if boss_flash %}
+      {% for flash in boss_flash %}
+      <div id="flasharea" class="alert alert-{{flash.method}}">{% if flash.title %}{{ flash.title }}{% endif %}{% if flash.message %} - {{ flash.message }}{% endif %}</div>
+      {% endfor %}
+      {% endif %}
+    </section>
+    <section>
+      <div id="container">
+	{% block content %}{% endblock %}
+      </div>
+    </section>
+    <footer>
+      <p style="text-align: center">Kai Janson & Sergey Ivanov for Spawnfest.com 2012 <a href="/bug">Report Bug</a> 
+      </p>
+    </footer>
   </body>
 </html>
