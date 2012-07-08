@@ -2,7 +2,10 @@
 -compile(export_all).
 
 index('GET', []) ->
-    ok.
+    Members = boss_db:find(member, []),
+    [Assigned, Unassigned] = separate_members(Members),
+    %% error_logger:info_msg("We have ~p Assigned and ~p Unassigned Members", [length(Assigned), length(Unassigned)]),
+    {ok, [{assigned, Assigned}, {unassigned, Unassigned}]}.
 
 create('GET', []) ->
     %% TODO: Find teams that has less than 4 team members
@@ -31,6 +34,8 @@ create('POST', []) ->
 		    TeamsNow = [binary_to_list(X:name()) || X <- boss_db:find(team, [])],
 		    (noteam:new(id, Email, TeamsNow)):save(),
 		    {redirect, [{action, "thankyou"}]};
+		Id ->
+		    {redirect, [{action, "thankyou"}]};
 		{error, Reason} ->
 		    boss_flash:add(SessionID, error, "Signup failed.  Please try again later"),
 		    Reason
@@ -48,3 +53,18 @@ destroy('GET', [Id]) ->
 thankyou('GET', []) ->
     Member = boss_db:find( boss_session:get_session_data(SessionID, thankyou_id)),
     {ok, [{member, Member}]}.
+
+separate_members(Members) ->
+    separate_members(Members, [], []).
+
+separate_members([], Assigned, Unassigned) ->
+    [lists:reverse(Assigned), lists:reverse(Unassigned)];
+separate_members([H | Members], Assigned, Unassigned) ->
+    case H:team_id() of
+	[] ->
+%%	    error_logger:info_msg("H is empty ~p~n", [H]),
+	    separate_members(Members, Assigned, [H|Unassigned]);
+	Id ->
+%%	    error_logger:info_msg("H is assigned ~p~n", [H]),
+	    separate_members(Members, [H|Assigned], Unassigned)
+    end.

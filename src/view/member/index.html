@@ -1,6 +1,22 @@
 {% extends "layout/application.html" %}
 {% block content %}
 
-Index here
+<h2>Assigned Members: {{assigned|length}}</h2>
+{% if assigned %}
+<ul>
+{% for member in assigned %}
+<li>{{member.first}} {{member.last}} on Team {{member.team.name}}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+<h2>Unassigned Members: {{unassigned|length}}</h2>
+{% if unassigned %}
+<ul>
+  {% for member in unassigned %}
+  <li>{{member.first}} {{member.last}} Actions: <a href="mailto:{{member.email}}">Email</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
 
 {% endblock %}
